@@ -35,6 +35,8 @@ public class NodeTest {
         Assert.assertTrue(s.hasNode("S2"));
         Assert.assertTrue(s.hasNode("S3"));
 
+//        NS未覆盖执行成功   IS 覆盖执行成功
+
         Assert.assertEquals(s.getNode("S1").getNS(), 0);
         Assert.assertEquals(s.getNode("S1").getNF(), 1);
         Assert.assertEquals(s.getNode("S1").getIS(), 3);

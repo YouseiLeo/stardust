@@ -9,6 +9,9 @@
 
 package fk.stardust.provider;
 
+import fk.stardust.localizer.NormalizedRanking;
+import fk.stardust.localizer.Ranking;
+import fk.stardust.localizer.extra.FusingFaultLocalizer;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -38,6 +41,21 @@ public class CoberturaProviderTest {
         Assert.assertFalse(t.isInvolved(s.getNode("cobertura/CoverageTest.java:3")));
         Assert.assertTrue(t.isInvolved(s.getNode("cobertura/CoverageTest.java:9")));
         Assert.assertTrue(t.isInvolved(s.getNode("cobertura/CoverageTest.java:10")));
+
+
+
+        //计算可疑度
+        final FusingFaultLocalizer<String> f = new FusingFaultLocalizer<>(NormalizedRanking.NormalizationStrategy.ZeroOne,
+          FusingFaultLocalizer.SelectionTechnique.OVERLAP_RATE, FusingFaultLocalizer.DataFusionTechnique.COMB_ANZ);
+        final Ranking<String> r = f.localize(s);
+
+        for (final INode<String> node : s.getNodes()) {
+            System.out.println(String.format("Node %s: %f", node.getIdentifier(), r.getSuspiciousness(node)));
+
+
+        }
+
+
     }
 
     @Test
@@ -54,7 +72,16 @@ public class CoberturaProviderTest {
         // (match count of the regex 'hits="[^0]' on large-coverage.xml divided by 2, as all hits are mentioned twice)
         int count = 0;
         final ITrace<String> t = s.getTraces().get(0);
+
+
+
+        final FusingFaultLocalizer<String> f = new FusingFaultLocalizer<>(NormalizedRanking.NormalizationStrategy.ZeroOne,
+          FusingFaultLocalizer.SelectionTechnique.OVERLAP_RATE, FusingFaultLocalizer.DataFusionTechnique.COMB_ANZ);
+        final Ranking<String> r = f.localize(s);
+
         for (final INode<String> node : s.getNodes()) {
+//            System.out.println(String.format("Node %s: %f", node.getIdentifier(), r.getSuspiciousness(node)));
+
             if (t.isInvolved(node)) {
                 count++;
             }

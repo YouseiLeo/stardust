@@ -58,7 +58,8 @@ public class HierarchicalExperiment implements IExperiment {
         this.localizer = localizer;
         this.root = new File(root);
         this.bugId = bugId;
-        this.bugFolder = new File(this.root.getAbsolutePath() + "/" + bugId + "/pre-fix");
+//        this.bugFolder = new File(this.root.getAbsolutePath() + "/" + bugId + "/pre-fix");
+        this.bugFolder = new File(this.root.getAbsolutePath() + "/" + "versions" + "/" + bugId + "/pre-fix");
         this.failingTraces = failingTraces;
         this.successfulTraces = successfulTraces;
 
@@ -107,14 +108,22 @@ public class HierarchicalExperiment implements IExperiment {
 
         // assert we have enough files loaded
         if (loadedFailure < this.failingTraces) {
-            throw new RuntimeException(String.format(
-                    "Bug ID '%d' has only %d failing traces, but experiment requires at least %d.", this.bugId,
-                    loadedFailure, this.failingTraces));
+            System.out.println(String.format(
+              "Bug ID '%d' has only %d failing traces, but experiment requires at least %d.", this.bugId,
+              loadedFailure, this.failingTraces));
+
+//            throw new RuntimeException(String.format(
+//                    "Bug ID '%d' has only %d failing traces, but experiment requires at least %d.", this.bugId,
+//                    loadedFailure, this.failingTraces));
         }
         if (loadedSuccess < this.successfulTraces) {
-            throw new RuntimeException(String.format(
-                    "Bug ID '%d' has only %d successful traces, but experiment requires at least %d.", this.bugId,
-                    loadedSuccess, this.successfulTraces));
+            System.out.println(String.format(
+              "Bug ID '%d' has only %d successful traces, but experiment requires at least %d.", this.bugId,
+              loadedSuccess, this.successfulTraces));
+
+//            throw new RuntimeException(String.format(
+//                    "Bug ID '%d' has only %d successful traces, but experiment requires at least %d.", this.bugId,
+//                    loadedSuccess, this.successfulTraces));
         }
 
         // load spectra
@@ -161,6 +170,9 @@ public class HierarchicalExperiment implements IExperiment {
      */
     private Map<String, Boolean> traces(final int version) {
         final Map<String, Boolean> traces = new HashMap<>();
+
+        System.out.println(this.bugFolder.listFiles().length+"length!!!!");
+
         for (final File trace : this.bugFolder.listFiles((FileFilter) pathname -> {
             if (!pathname.isFile()) {
                 return false;

@@ -116,7 +116,11 @@ public class CreateRankings {
                 156962, 158412, 161217, };
 
         // add file logger
-        this.logger.addHandler(new FileHandler(this.resultPath + "-log.txt"));
+        try{
+            this.logger.addHandler(new FileHandler(this.resultPath + "-log.txt"));
+        }catch (Exception e){
+            System.out.println(e.getMessage());
+        }
 
         // fault localizers to use
         // this.faultLocalizers.add(new

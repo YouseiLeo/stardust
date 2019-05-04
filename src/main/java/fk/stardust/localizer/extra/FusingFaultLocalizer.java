@@ -179,6 +179,17 @@ public class FusingFaultLocalizer<T> implements IFaultLocalizer<T> {
         assert selected != null && selected.size() > 1;
         System.out.println("Selected " + selected.size());
 
+
+        System.out.println(this.selectionStrategy+"||");
+
+        for(IFaultLocalizer<T> ifa : selected){
+
+            System.out.println(ifa.getName());
+
+        }
+
+
+
         // combine
         switch (this.fusionStrategy) {
         case COMB_ANZ:

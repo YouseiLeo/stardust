@@ -28,6 +28,7 @@ public class IBugsHierarchical {
         ll.setLevelLocalizer(1, new Tarantula<>()); // class
         ll.setLevelLocalizer(2, new Tarantula<>()); // methd
         ll.setLevelLocalizer(3, new Tarantula<>()); // line
-        new HierarchicalExperiment(ll, "traces", 156904, 40, 40).conduct();
+        //        new HierarchicalExperiment(ll, "traces", 156904, 40, 40).conduct();
+        new HierarchicalExperiment(ll, "E:\\ibugs_aspectj-1.3\\ibugs_aspectj-1.3", 156904, 40, 40).conduct();
     }
 }

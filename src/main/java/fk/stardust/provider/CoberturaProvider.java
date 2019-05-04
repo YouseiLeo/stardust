@@ -51,6 +51,9 @@ public class CoberturaProvider implements ISpectraProvider<String>, IHierarchica
      * @throws IOException
      */
     public void addTraceFile(final String file, final boolean successful) throws IOException {
+//        . 匹配除换行符 \n 之外的任何单字符。要匹配 . ，请使用 \. 。
+//        * 匹配前面的子表达式零次或多次。要匹配 * 字符，请使用 \*。
+
         if (!this.fileToString(file).matches(".*hits=\"[1-9].*")) {
             System.err.println(String.format("Did not add file %s as it did not execute a single node.", file));
             return;
@@ -75,6 +78,7 @@ public class CoberturaProvider implements ISpectraProvider<String>, IHierarchica
     public ISpectra<String> loadSpectra() throws Exception {
         final Spectra<String> spectra = new Spectra<>();
         for (final Map.Entry<String, Boolean> traceFile : this.files.entrySet()) {
+            System.out.println("begin:"+traceFile.getKey()+"||"+traceFile.getValue()+"==="+spectra);
             this.loadSingleTrace(traceFile.getKey(), traceFile.getValue(), spectra);
         }
         return spectra;
@@ -155,6 +159,8 @@ public class CoberturaProvider implements ISpectraProvider<String>, IHierarchica
                         // set node involvement
                         final String lineIdentifier = createNodeIdentifier(className, line.getAttributeValue("number"));
                         final boolean involved = Integer.parseInt(line.getAttributeValue("hits")) > 0;
+                        System.out.println("====="+methodName+"|:=>"+lineIdentifier);
+
                         trace.setInvolvement(lineIdentifier, involved);
 
                         // if necessary, create hierarchical spectra
