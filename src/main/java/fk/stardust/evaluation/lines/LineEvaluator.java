@@ -79,7 +79,9 @@ public final class LineEvaluator {
 
         // experiment parameters
         final int bugId = 36430;
-        final String pathToTraceFolder = "traces";
+//        final int bugId = 156904;
+//        final String pathToTraceFolder = "traces";
+        final String pathToTraceFolder = "F:\\ibugs_aspectj-1.3\\versions";
         final String pathToResultFolder = "experiments";
         final int[] lineIFs = { 1, 3, 5, 10, 25 };
         final int[] lineISs = { 1, 3, 5, 10, 25 };
@@ -87,8 +89,36 @@ public final class LineEvaluator {
         final int maxFailingTraces = 25;
         final IFaultLocalizer<String> localizer = new WekaFaultLocalizer<String>(IBugsHierarchical.NaiveBayes);
 
+//        String outPath = pathToResultFolder + "/result-" + bugId + ".csv";
+        String outPath = pathToResultFolder + "\\result-" + bugId + ".csv";
+
+        File outfileDir = new File(pathToResultFolder);
+        if(!outfileDir.exists()){
+            outfileDir.mkdirs();
+            System.out.println("Create Dir");
+        }else{
+            System.out.println("the dir has existed");
+        }
+
+        File outfileCsv = new File(outPath);
+        if(!outfileCsv.exists()){
+            try {
+                outfileCsv.createNewFile();
+                System.out.println("Create File.csv");
+
+            }catch (IOException ioe){
+
+                System.out.println("Something happened in creating file.csv");
+            }
+        }else{
+            System.out.println("the file has existed");
+
+        }
+
         // initialization
-        writer = new FileWriter(pathToResultFolder + "/result-" + bugId + ".csv");
+//        writer = new FileWriter(pathToResultFolder + "/result-" + bugId + ".csv");
+        writer = new FileWriter(outPath);
+
         writer.write(CsvUtils.toCsvLine(new String[] { "BugID", "line", "IF", "IS", "NF", "NS", "BestRanking",
                 "WorstRanking", "MinWastedEffort", "MaxWastedEffort", "Suspiciousness", })
                 + "\n");
@@ -96,8 +126,12 @@ public final class LineEvaluator {
         final CoberturaProvider provider = new CoberturaProvider();
         int added = 0;
         boolean success = false;
-        for (final String path : traces(pathToTraceFolder + "/" + bugId + "/pre-fix", maxSuccessfulTraces
-                + maxFailingTraces)) {
+        String ss = "F:/ibugs_aspectj-1.3/versions" + "/" + bugId + "/pre-fix";
+        String ss2 = "F:\\ibugs_aspectj-1.3\\versions" + "\\" + bugId + "\\pre-fix";
+//        for (final String path : traces(pathToTraceFolder + "/" + bugId + "/pre-fix", maxSuccessfulTraces
+//        for (final String path : traces(pathToTraceFolder + "\\" + bugId + "\\pre-fix", maxSuccessfulTraces
+        for (final String path : traces(ss, maxSuccessfulTraces
+          + maxFailingTraces)) {
             if (added == maxFailingTraces) {
                 success = true;
             }
